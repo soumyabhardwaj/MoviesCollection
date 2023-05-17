@@ -47,27 +47,30 @@ struct ContentView: View {
             .frame(height: 42)
             .padding(.top, 16)
             
-            List(movies, id: \.title) { movie in
-                HStack {
-                    if let url = URL(string: movie.poster), let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .frame(width: 140, height: 210)
-                            .cornerRadius(12)
-                            .padding(.vertical, 16)
-                            .padding(.leading, 5) // Updated padding from left to 5px
+            List {
+                ForEach(movies, id: \.title) { movie in
+                    HStack {
+                        if let url = URL(string: movie.poster), let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .frame(width: 140, height: 210)
+                                .cornerRadius(12)
+                                .padding(.vertical, 8)
+                                .padding(.leading, 5)
+                        }
+                        VStack(alignment: .leading) {
+                            Text(movie.title)
+                                .font(.headline)
+                                .padding(.bottom, 3)
+                                .padding(.leading, 10)
+                            
+                            Text(movie.year)
+                                .font(.subheadline)
+                                .padding(.bottom, 120) // Adjusted padding to desired spacing
+                                .padding(.leading, 12)
+                        }
                     }
-                    VStack(alignment: .leading) {
-                        Text(movie.title)
-                            .font(.headline)
-                            .padding(.bottom,2)
-                            .padding(.leading,10)
-                        
-                        Text(movie.year)
-                            .font(.subheadline)
-                            .padding(.bottom,120)
-                            .padding(.leading,10)
-                    }
+                    .listRowSeparator(.visible) // Add a plain line separator
                 }
             }
             .listStyle(PlainListStyle())
